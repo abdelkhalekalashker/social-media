@@ -5,3 +5,21 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+user = User.create(name: "Abdelkhalek")
+posts = []
+50000.times do |i|
+  post = Post.new(user: user, title: "Hello#{i}", body: "This is th body of Hello post of #{i}")
+  posts << post
+end
+
+Post.import(posts)
+
+post = Post.new(user: user, title: "Hello again", body: "This is th body of Hello post")
+reviews = []
+20000.times do |i|
+  review = Review.new(user: user, post:post, content: "review content", stars: 3)
+  reviews << review
+end
+
+Review.import(reviews)
