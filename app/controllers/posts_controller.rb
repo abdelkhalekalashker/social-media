@@ -1,9 +1,15 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.includes(:user, :reviews).page(params[:page]).per(params[:per_page])
+  end
+
+  def top_posts
+    @posts = Post.includes(:user, :reviews).order(average_rate: :desc).page(params[:page]).per(params[:per_page])
+    render :index
   end
 
   # GET /posts/1 or /posts/1.json
