@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show edit update destroy ]
+  skip_before_action :verify_authenticity_token
 
   # GET /reviews or /reviews.json
   def index
@@ -25,8 +26,9 @@ class ReviewsController < ApplicationController
 
     respond_to do |format|
       if @review.save
-        format.html { redirect_to review_url(@review), notice: "Review was successfully created." }
-        format.json { render :show, status: :created, location: @review }
+        @post = @review.post
+        format.html { redirect_to post_url(@post), notice: "Review was successfully created." }
+        format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @review.errors, status: :unprocessable_entity }
@@ -65,6 +67,6 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:post_id, :user_id, :content, :stars)
+      params.require(:review).permit(:user_id, :content, :stars).merge!(post_id: params[:post_id])
     end
 end
