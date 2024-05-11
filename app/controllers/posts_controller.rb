@@ -12,6 +12,11 @@ class PostsController < ApplicationController
     render :index
   end
 
+  def user_posts
+    @posts = Post.where(user_id: params[:user_id]).page(params[:page]).per(params[:per_page])
+    render :index
+  end
+
   # GET /posts/1 or /posts/1.json
   def show
   end

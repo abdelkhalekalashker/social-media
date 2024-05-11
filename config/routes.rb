@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :users do
-    resources :posts, only: [:index]
+    get "user_posts", to: "posts#user_posts"
   end
 
   get "top_posts", to: "posts#top_posts"

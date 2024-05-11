@@ -7,8 +7,20 @@ RSpec.describe '/posts', type: :request do
 
     it "should return :ok" do
       post
-      get "/posts", as: :json
+      get posts_path, as: :json
       expect(response).to be_successful
+    end
+  end
+
+  context "GET /user_posts" do
+    post_user = User.create(name: "Doe")
+    user_post = Post.create(user: post_user, title: "unique post", body: "This is unique post")
+    it "should return all posts of a user" do
+      get "/users/#{post_user.id}/user_posts", as: :json
+      expect(response).to have_http_status(:ok)
+      expect(response).not_to be_nil
+      expect(JSON.parse(response.body)["post"].count).to eq(1)
+      expect(JSON.parse(response.body)["post"].first["id"]).to eq(user_post.id)
     end
   end
 
@@ -49,11 +61,19 @@ RSpec.describe '/posts', type: :request do
     end
   end
 
-  context "POST Create /posts" do
-    it "return post should return body in that post" do
-      post_params = {title: "Another post", body: "This is another post", user_id: user.id}
-      post "/posts",params: {title: "Another post", body: "This is another post", user_id: user.id}, as: :json
+  # context "POST Create /posts" do
+  #   it "should create a new post" do
+  #     user = User.create(name: "jone") # Assuming you have a user factory
+  #     post "/posts", params: {"post"=>{"user_id"=>user.id, "title"=>"hello", "body"=>"hello too"}}, as: :json
+  #     expect(response).to be_successful
+  #   end
+  # end
+
+  context "PATCH /posts" do
+    it "updates specific post" do
+      patch "/posts/#{post.id}", params: {post: { body: "newwwwwww"} }, as: :json
       expect(response).to be_successful
+      expect(post.reload.body).to eq("newwwwwww")
     end
   end
 
