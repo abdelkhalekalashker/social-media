@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class PriorityQueue
-  def initialize(queue=[])
+  def initialize(queue = [])
     @queue = queue
   end
 
   def enqueue(element, priority)
     @queue.push([element, priority])
-    @queue.sort_by! { |ele, priority| priority}
+    @queue.sort_by! { |_ele, priority| priority }
   end
 
   def dequeue
