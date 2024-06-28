@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# queue implementation
 class Queue
-  def initialize(queue=[])
+  def initialize(queue = [])
     @queue = queue
   end
 
@@ -15,12 +18,12 @@ class Queue
     @queue.first
   end
 
-  def is_empty?
+  def empty?
     @queue.empty?
   end
 end
 
-queue = Queue.new([1,2,3,4,5,6,7,8])
+queue = Queue.new([1, 2, 3, 4, 5, 6, 7, 8])
 queue.enqueue(9) # O(1)
 p queue.instance_variable_get(:@queue)
 queue.dequeue # O(n)

@@ -1,63 +1,63 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.describe '/posts', type: :request do
-  let(:user) { User.create(name: "Abdo")}
-  let(:post) { Post.create(user: user, title: "Hello again", body: "This is th body of Hello post")}
-  describe "Get/ Index posts" do
-
-    it "should return :ok" do
+require 'rails_helper'
+# unit test for posts controller
+RSpec.describe '/posts', type: :request do # rubocop:disable Metrics/BlockLength
+  let(:user) { User.create(name: 'Abdo') }
+  let(:post) { Post.create(user:, title: 'Hello again', body: 'This is th body of Hello post') }
+  describe 'Get/ Index posts' do
+    it 'should return :ok' do
       post
       get posts_path, as: :json
       expect(response).to be_successful
     end
   end
 
-  context "GET /user_posts" do
-    post_user = User.create(name: "Doe")
-    user_post = Post.create(user: post_user, title: "unique post", body: "This is unique post")
-    it "should return all posts of a user" do
+  context 'GET /user_posts' do
+    post_user = User.create(name: 'Doe')
+    user_post = Post.create(user: post_user, title: 'unique post', body: 'This is unique post')
+    it 'should return all posts of a user' do
       get "/users/#{post_user.id}/user_posts", as: :json
       expect(response).to have_http_status(:ok)
       expect(response).not_to be_nil
-      expect(JSON.parse(response.body)["post"].count).to eq(1)
-      expect(JSON.parse(response.body)["post"].first["id"]).to eq(user_post.id)
+      expect(JSON.parse(response.body)['post'].count).to eq(1)
+      expect(JSON.parse(response.body)['post'].first['id']).to eq(user_post.id)
     end
   end
 
-  describe "Get/ top_posts" do
-    let(:user_2 ){User.create(name: "jone")}
-    let(:post_1 ){Post.create(user: user_2, title: "Another post1", body: "This is th body of Hello post")}
-    let(:post_2 ){Post.create(user: user_2, title: "Another post2", body: "This is th body of Hello post")}
-    it "should return posts in descending order" do
-      review = Review.create(post: post, user: user, stars: 5, content: "This is th content of review")
-      get "/top_posts", as: :json
+  describe 'Get/ top_posts' do
+    let(:user_2) { User.create(name: 'jone') } # rubocop:disable Naming/VariableNumber
+    let(:post_1) { Post.create(user: user_2, title: 'Another post1', body: 'This is th body of Hello post') } # rubocop:disable Naming/VariableNumber
+    let(:post_2) { Post.create(user: user_2, title: 'Another post2', body: 'This is th body of Hello post') } # rubocop:disable Naming/VariableNumber
+    it 'should return posts in descending order' do
+      Review.create(post:, user:, stars: 5, content: 'This is th content of review')
+      get '/top_posts', as: :json
       expect(response).to be_successful
-      expect(JSON.parse(response.body)["post"][0]["id"]).to eq(post.id)
-      expect(JSON.parse(response.body)["post"][0]["title"]).to eq(post.title)
+      expect(JSON.parse(response.body)['post'][0]['id']).to eq(post.id)
+      expect(JSON.parse(response.body)['post'][0]['title']).to eq(post.title)
     end
   end
 
-  context "Get/ Show posts" do
-
-    it "should return return specific post" do
+  context 'Get/ Show posts' do
+    it 'should return return specific post' do
       post
       get "/posts/#{post.id}", as: :json
       expect(response).to be_successful
-      expect(JSON.parse(response.body)["id"]).to eq(post.id)
+      expect(JSON.parse(response.body)['id']).to eq(post.id)
     end
 
-    it "return post should return title in that post" do
+    it 'return post should return title in that post' do
       post
       get "/posts/#{post.id}", as: :json
       expect(response).to be_successful
-      expect(JSON.parse(response.body)["title"]).to eq("Hello again")
+      expect(JSON.parse(response.body)['title']).to eq('Hello again')
     end
 
-    it "return post should return body in that post" do
+    it 'return post should return body in that post' do
       post
       get "/posts/#{post.id}", as: :json
       expect(response).to be_successful
-      expect(JSON.parse(response.body)["body"]).to eq("This is th body of Hello post")
+      expect(JSON.parse(response.body)['body']).to eq('This is th body of Hello post')
     end
   end
 
@@ -69,16 +69,16 @@ RSpec.describe '/posts', type: :request do
   #   end
   # end
 
-  context "PATCH /posts" do
-    it "updates specific post" do
-      patch "/posts/#{post.id}", params: {post: { body: "newwwwwww"} }, as: :json
+  context 'PATCH /posts' do
+    it 'updates specific post' do
+      patch "/posts/#{post.id}", params: { post: { body: 'newwwwwww' } }, as: :json
       expect(response).to be_successful
-      expect(post.reload.body).to eq("newwwwwww")
+      expect(post.reload.body).to eq('newwwwwww')
     end
   end
 
-  context "DELETE /posts" do
-    it "delete specific post" do
+  context 'DELETE /posts' do
+    it 'delete specific post' do
       delete "/posts/#{post.id}", as: :json
       expect(response).to have_http_status(:no_content)
     end
