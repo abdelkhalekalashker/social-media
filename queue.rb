@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# queue implementation
 class Queue
   def initialize(queue = [])
     @queue = queue
