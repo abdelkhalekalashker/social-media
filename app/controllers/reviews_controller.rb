@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# reviews controller class
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token
@@ -21,7 +22,7 @@ class ReviewsController < ApplicationController
   def edit; end
 
   # POST /reviews or /reviews.json
-  def create
+  def create # rubocop:disable Metrics/MethodLength
     @review = Review.new(review_params)
 
     respond_to do |format|

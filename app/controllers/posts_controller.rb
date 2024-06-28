@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# posts controller
 class PostsController < ApplicationController
   before_action :set_post, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# this is review model
 class Review < ApplicationRecord
   belongs_to :post
   belongs_to :user

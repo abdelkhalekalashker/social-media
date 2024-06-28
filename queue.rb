@@ -17,7 +17,7 @@ class Queue
     @queue.first
   end
 
-  def is_empty?
+  def empty?
     @queue.empty?
   end
 end

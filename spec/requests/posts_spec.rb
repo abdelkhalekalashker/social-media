@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-
-RSpec.describe '/posts', type: :request do
+# unit test for posts controller
+RSpec.describe '/posts', type: :request do # rubocop:disable Metrics/BlockLength
   let(:user) { User.create(name: 'Abdo') }
   let(:post) { Post.create(user:, title: 'Hello again', body: 'This is th body of Hello post') }
   describe 'Get/ Index posts' do
@@ -26,9 +26,9 @@ RSpec.describe '/posts', type: :request do
   end
 
   describe 'Get/ top_posts' do
-    let(:user_2) { User.create(name: 'jone') }
-    let(:post_1) { Post.create(user: user_2, title: 'Another post1', body: 'This is th body of Hello post') }
-    let(:post_2) { Post.create(user: user_2, title: 'Another post2', body: 'This is th body of Hello post') }
+    let(:user_2) { User.create(name: 'jone') } # rubocop:disable Naming/VariableNumber
+    let(:post_1) { Post.create(user: user_2, title: 'Another post1', body: 'This is th body of Hello post') } # rubocop:disable Naming/VariableNumber
+    let(:post_2) { Post.create(user: user_2, title: 'Another post2', body: 'This is th body of Hello post') } # rubocop:disable Naming/VariableNumber
     it 'should return posts in descending order' do
       Review.create(post:, user:, stars: 5, content: 'This is th content of review')
       get '/top_posts', as: :json
