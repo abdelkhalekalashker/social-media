@@ -2,7 +2,7 @@
 
 json.post do
   json.array! @posts do |post|
-    json.partial! 'posts/post', post: post, user: post.user # rubocop:disable Style/HashSyntax: Omit the hash value.
+    json.partial! 'posts/post', post: post, user: @user # rubocop:disable Style/HashSyntax: Omit the hash value.
   end
 end
 json.pagination_data do

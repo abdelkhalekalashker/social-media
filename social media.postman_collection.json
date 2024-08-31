@@ -241,7 +241,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:3000/users/:user_id/posts",
+							"raw": "http://127.0.0.1:3000/users/:user_id/user_posts",
 							"protocol": "http",
 							"host": [
 								"127",
