@@ -16,6 +16,7 @@ class PostsController < ApplicationController
   end
 
   def user_posts
+    @user = User.find(params[:user_id])
     @posts = Post.where(user_id: params[:user_id]).page(params[:page]).per(params[:per_page])
     render :index
   end
